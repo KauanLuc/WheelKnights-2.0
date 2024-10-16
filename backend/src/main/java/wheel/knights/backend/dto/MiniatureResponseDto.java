@@ -12,6 +12,7 @@ public record MiniatureResponseDto(
         Manufacturer manufacturer,
         Theme theme,
         VehicleType vehicleType,
-        Double purchasePrice
+        Double purchasePrice,
+        String imagePath
 ) {
 }

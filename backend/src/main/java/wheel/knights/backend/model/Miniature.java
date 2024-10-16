@@ -34,4 +34,7 @@ public class Miniature {
 
     @Column
     private Double purchasePrice;
+
+    @Column
+    private String imagePath;
 }

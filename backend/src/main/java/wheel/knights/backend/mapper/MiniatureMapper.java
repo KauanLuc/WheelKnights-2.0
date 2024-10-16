@@ -16,6 +16,7 @@ public class MiniatureMapper {
                 .theme(dto.theme())
                 .vehicleType(dto.vehicleType())
                 .purchasePrice(dto.purchasePrice())
+                .imagePath(dto.imagePath())
                 .build();
     }
 
@@ -31,6 +32,7 @@ public class MiniatureMapper {
                 .theme(miniature.getTheme())
                 .vehicleType(miniature.getVehicleType())
                 .purchasePrice(miniature.getPurchasePrice())
+                .imagePath(miniature.getImagePath())
                 .build();
     }
 }
