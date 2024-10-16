@@ -14,6 +14,7 @@ public record MiniatureRequestDto(
         Theme theme,
         VehicleType vehicleType,
         @NotNull @PositiveOrZero
-        Double purchasePrice
+        Double purchasePrice,
+        String imagePath
 ) {
 }
