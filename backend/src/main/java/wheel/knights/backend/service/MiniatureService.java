@@ -35,6 +35,7 @@ public class MiniatureService {
         miniatureToUpdate.setTheme(miniature.getTheme());
         miniatureToUpdate.setVehicleType(miniature.getVehicleType());
         miniatureToUpdate.setPurchasePrice(miniature.getPurchasePrice());
+        miniatureToUpdate.setImagePath(miniatureToUpdate.getImagePath());
 
         return repository.save(miniatureToUpdate);
     }
