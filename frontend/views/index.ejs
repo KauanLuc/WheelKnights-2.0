@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/feed.css">
+    <link rel="shortcut icon" href="../public/assets/img/wheelknightslogo32.ico" type="image/x-icon">
+    <title>Registro de Miniaturas - WK</title>
+</head>
+<body>
+
+    <nav class="main_menu">
+        <div class="menu_links">
+            <h1 class="brand_font">WheelKnights</h1>
+            <input type="text" name="ms" class="search_top" placeholder="Pesquisar">
+
+            <div class="menu_icons">
+                <img src="../public/assets/img/icon-register.png" alt="registrar miniaturas" class="icon">
+                <img src="../public/assets/img/icon-dashboard-white.png" alt="dashboard" class="icon">
+                <img src="../public/assets/img/icon-album-white.png" alt="album" class="icon">
+            </div>
+        </div>
+    </nav>
+
+    <section>
+        <div class="register_content">
+            <div class="mensagem_status" id="mensagem_status"><button onclick="hideMsg()">OK</button></div>
+            <h1>Registro de Miniaturas</h1><br>
+
+            <form action="/miniatures" method="POST" enctype="multipart/form-data">
+                <input type="text" placeholder="Modelo" class="inputForm" name="model" required>
+
+                <select name="manufacturer" required>
+                    <option disabled selected hidden>Selecione uma marca</option>
+                    <option value="HOT_WHEELS">Hot Wheels</option>
+                    <option value="MATCHBOX">Matchbox</option>
+                    <option value="KYOSHO">Kyosho</option>
+                    <option value="TOMY">Tomy</option>
+                    <option value="SIKU">Siku</option>
+                    <option value="JADA">Jada</option>
+                    <option value="JOHNNY_LIGHTNING">Johnny Lightning</option>
+                    <option value="MAISTO">Maisto</option>
+                    <option value="BURAGO">Burago</option>
+                    <option value="AUTOART">Autoart</option>
+                    <option value="GREENLIGHT">Greenlight</option>
+                    <option value="WELLY">Welly</option>
+                    <option value="TOMICA">Tomica</option>
+                    <option value="CORGI">Corgi</option>
+                    <option value="MAJORETTE">Majorette</option>
+                    <option value="NOREV">Norev</option>
+                    <option value="SCHUCO">Schuco</option>
+                    <option value="MINICHAMPS">Minichamps</option>
+                    <option value="SOLIDO">Solido</option>
+                    <option value="M2_MACHINES">M2 Machines</option>
+                    <option value="MOTOR_MAX">Motor Max</option>
+                    <option value="SUN_STAR">Sun Star</option>
+                    <option value="AUTO_WORLD">Auto World</option>
+                    <option value="ROAD_SIGNATURE">Road Signature</option>
+                    <option value="SIGNATURE_MODELS">Signature Models</option>
+                    <option value="KINSMART">Kinsmart</option>
+                    <option value="OUTRA">Outra</option>
+                </select>
+
+                <select name="theme">
+                    <option disabled selected hidden>Selecione o tema</option>
+                    <option value="OS_SIMPSONS">Os Simpsons</option>
+                    <option value="BATMAN">Batman</option>
+                    <option value="OS_FLINTSTONES">Os Flintstones</option>
+                    <option value="SCOOBY_DOO">Scooby-Doo!</option>
+                    <option value="VELOZES_E_FURIOSOS">Velozes e Furiosos</option>
+                    <option value="STAR_WARS">Star Wars</option>
+                    <option value="MARIO_KART">Mario Kart</option>
+                    <option value="BACK_TO_THE_FUTURE">Back to the Future</option>
+                    <option value="GHOSTBUSTERS">Ghostbusters</option>
+                    <option value="HARRY_POTTER">Harry Potter</option>
+                    <option value="JAMES_BOND">James Bond</option>
+                    <option value="JURASSIC_PARK">Jurassic Park</option>
+                    <option value="TRANSFORMERS">Transformers</option>
+                    <option value="SUPERNATURAL">Supernatural</option>
+                    <option value="OUTRO">Outro</option>
+                    <option value="NENHUM">Nenhum</option>
+                </select>
+
+                <select name="vehicleType" required>
+                    <option disabled selected hidden>Selecione o tipo de veículo</option>
+                    <option value="CARRO">Carro</option>
+                    <option value="MOTO">Moto</option>
+                    <option value="CAMINHAO">Caminhão</option>
+                    <option value="MILITAR">Militar</option>
+                    <option value="BARCO">Barco</option>
+                    <option value="AVIAO">Avião</option>
+                    <option value="ONIBUS">Ônibus</option>
+                    <option value="CONSTRUCAO">Construção</option>
+                    <option value="EMERGENCIA">Emergência</option>
+                    <option value="ESPACIAL">Espacial</option>
+                    <option value="OUTRO">Outro</option>
+                </select>
+
+                <input type="number" placeholder="Preço de Compra" class="inputForm" name="purchasePrice">
+                <label for="imagePath">Escolha uma imagem da sua miniatura</label>
+                <input type="file" name="imagePath" id="imagePath">
+
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        document.querySelector('img[alt="dashboard"]').addEventListener('click', () => window.location.href = 'dashboard/dashboard.html');
+        document.querySelector('img[alt="album"]').addEventListener('click', () => window.location.href = 'dashboard/miniAlbum.html');
+
+        function hideMsg() {
+            document.getElementById('mensagem_status').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
