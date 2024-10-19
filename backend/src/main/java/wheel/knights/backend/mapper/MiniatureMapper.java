@@ -1,7 +1,7 @@
 package wheel.knights.backend.mapper;
 
-import wheel.knights.backend.dto.MiniatureRequestDto;
-import wheel.knights.backend.dto.MiniatureResponseDto;
+import wheel.knights.backend.dto.miniatura.MiniatureRequestDto;
+import wheel.knights.backend.dto.miniatura.MiniatureResponseDto;
 import wheel.knights.backend.model.Miniature;
 
 public class MiniatureMapper {
