@@ -11,4 +11,4 @@ Este repositório contém a versão 2.0 do backend do projeto [WheelKnights](htt
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
 
 - [x] Incluir uma Dashboard de vizualização dos dados da coleção
-- [ ] Implementar uma página inspirada em álbuns de revistas de miniaturas, transformando a coleção em um álbum digital
+- [x] Implementar uma página inspirada em álbuns de revistas de miniaturas, transformando a coleção em um álbum digital
