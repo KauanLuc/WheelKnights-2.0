@@ -60,7 +60,7 @@
 
 <script>
     document.querySelector("img[alt='registrar miniaturas']").addEventListener("click", () => window.location.href = "/");
-    document.querySelector("img[alt='album']").addEventListener("click", () => window.location.href = "miniAlbum.ejs");
+    document.querySelector("img[alt='album']").addEventListener("click", () => window.location.href = "/album");
 
     function getMiniaturesByManufacturer() {
         fetch("http://localhost:8080/dashboard/miniatures-by-manufacturer")

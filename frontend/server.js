@@ -10,6 +10,7 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 app.use("/public", express.static(__dirname + "/public"));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 
 const storage = multer.diskStorage({
@@ -51,6 +52,16 @@ app.get("/dashboard", async (req, res) => {
         res.render("dashboard", { cards, graphs });
     } catch (error) {
         res.status(500).json({ message: "Erro ao carregar o dashboard: " + error.message });
+    }
+});
+
+app.get("/album", async (req, res) => {
+    try{
+        const miniatures = (await axios.get("http://localhost:8080/miniatures")).data;
+
+        res.render("album", { miniatures });
+    } catch (error) {
+        res.status(500).json({ message: "Erro ao carregar álbum de miniaturas: " + error.message });
     }
 });
 
