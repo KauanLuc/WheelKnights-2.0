@@ -2,6 +2,10 @@ package wheel.knights.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import wheel.knights.backend.dto.dashboard.ExpensesPerManufacturer;
+import wheel.knights.backend.dto.dashboard.ExpensesPerVehicleType;
+import wheel.knights.backend.dto.dashboard.MiniatureByManufacturer;
+import wheel.knights.backend.dto.dashboard.MiniatureByVehicleType;
 import wheel.knights.backend.exception.MiniatureNotFoundException;
 import wheel.knights.backend.model.Miniature;
 import wheel.knights.backend.repository.MiniatureRepository;
@@ -43,5 +47,37 @@ public class MiniatureService {
     public void delete(int id){
         Miniature miniature = findById(id);
         repository.delete(miniature);
+    }
+
+    public long count(){
+        return repository.count();
+    }
+
+    public Double sumByPurchasePrice(){
+        return repository.sumByPurchasePrice();
+    }
+
+    public Miniature findTopByOrderByPurchasePriceDesc(){
+        return repository.findTopByOrderByPurchasePriceDesc();
+    }
+
+    public Miniature findTopByOrderByPurchasePriceAsc(){
+        return repository.findTopByOrderByPurchasePriceAsc();
+    }
+
+    public List<MiniatureByManufacturer> countMiniatureByManufacturer(){
+        return repository.countMiniatureByManufacturer();
+    }
+
+    public List<ExpensesPerManufacturer> countExpensesPerManufacturer(){
+        return repository.countExpensesPerManufacturer();
+    }
+
+    public List<MiniatureByVehicleType> countMiniatureByVehicleType(){
+        return repository.countMiniatureByVehicleType();
+    }
+
+    public List<ExpensesPerVehicleType> countExpensesPerVehicleType(){
+        return repository.countExpensesPerVehicleType();
     }
 }
