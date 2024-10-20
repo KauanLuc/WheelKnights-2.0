@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../public/css/dashboard.css">
+    <link rel="shortcut icon" href="../public/assets/img/wheelknightslogo32.ico" type="image/x-icon">
+    <title>Analisar Coleção - WK</title>
+</head>
+<body>
+
+    <nav class="main_menu">
+
+        <div class="menu_links">
+
+            <h1 class="brand_font">WheelKnights</h1>
+            <input type="text" name="ms" class="search_top" placeholder="Pesquisar">
+
+            <div class="menu_icons">
+
+                <img src="../public/assets/img/icon-register-white.png" alt="registrar miniaturas" class="icon">
+                <img src="../public/assets/img/icon-dashboard.png" alt="dashboard" class="icon">
+                <img src="../public/assets/img/icon-album-white.png" alt="album" class="icon">
+
+            </div>
+
+        </div>
+
+    </nav>
+    
+    <div class="container">
+        <div class="card_box">
+            <% cards.forEach(card => { %>
+            <div class="card">
+                <div>
+                    <div id="<%= card.idDiv %>" class="numbers">
+                        <%= card.content %>
+                    </div>
+                    <div class="card_name"><%= card.name %></div>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+    
+    <br><br>
+    
+    <div class="graph_box">
+        <% graphs.forEach(graph => { %>
+        <div class="box">
+            <p class="caption"><%= graph.caption %></p>
+            <canvas id="<%= graph.canvasId %>"></canvas>
+        </div>
+        <% }) %>
+    </div>
+
+</body>
+</html>
+
+<script>
+    document.querySelector("img[alt='registrar miniaturas']").addEventListener("click", () => window.location.href = "/");
+    document.querySelector("img[alt='album']").addEventListener("click", () => window.location.href = "miniAlbum.ejs");
+
+    function getMiniaturesByManufacturer() {
+        fetch("http://localhost:8080/dashboard/miniatures-by-manufacturer")
+            .then(response => response.json())
+            .then(data => chartMiniaturesByManufacturer(data))
+            .catch(error => console.error("Erro: ", error));
+    }
+
+    function getExpensesPerManufacturer() {
+        fetch("http://localhost:8080/dashboard/expenses-per-manufacturer")
+            .then(response => response.json())
+            .then(data => chartExpensesPerManufacturer(data))
+            .catch(error => console.error("Erro: ", error));
+    }
+
+    function getMiniaturesByVehicleType(){
+        fetch("http://localhost:8080/dashboard/miniatures-by-vehicle-type")
+            .then(response => response.json())
+            .then(data => chartMiniaturesByVehicleType(data))
+            .catch(error => console.error("Erro: ", error));
+    }
+
+    function getExpensesPerVehicleType(){
+        fetch("http://localhost:8080/dashboard/expenses-per-vehicle-type")
+            .then(response => response.json())
+            .then(data => chartExpensesPerVehicleType(data))
+            .catch(error => console.error("Erro: ", error));
+    }
+
+    function chartMiniaturesByManufacturer(data) {
+        const labels = data.map(item => item.manufacturer);
+        const dataValues = data.map(item => item.quantity);
+
+        const ctx = document.getElementById("chartMiniaturesByManufacturer").getContext("2d");
+        new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Quantidade de miniaturas",
+                    data: dataValues,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.label}: ${context.raw}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: "rgb(51, 49, 49)", 
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: "rgb(51, 49, 49)",
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+function chartExpensesPerManufacturer(data) {
+    const labels = data.map(item => item.manufacturer);
+    const dataValues = data.map(item => item.expense);
+
+    const ctx = document.getElementById("chartExpensesPerManufacturer").getContext("2d");
+    const myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Gasto na Marca (Em R$)",
+            data: dataValues,
+            backgroundColor: "orange",
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        const value = context.parsed.y;
+                        return "R$" + value.toFixed(2);
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: "rgb(51, 49, 49)", 
+                }
+            },
+            y: {
+                ticks: {
+                    color: "rgb(51, 49, 49)",
+                }
+            }
+        }
+    }
+});
+
+}
+
+function chartMiniaturesByVehicleType(data) {
+    const labels = data.map(item => item.vehicleType);
+    const dataValues = data.map(item => item.quantity);
+    
+    const ctx = document.getElementById("chartMiniaturesByVehicleType").getContext("2d");
+    const myChart = new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Quantidade de miniaturas",
+                data: dataValues,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            },
+            scales: {
+            x: {
+                ticks: {
+                    color: "rgb(51, 49, 49)", 
+                }
+            },
+            y: {
+                ticks: {
+                    color: "rgb(51, 49, 49)",
+                }
+            }
+        }
+        }
+    });    
+}
+
+function chartExpensesPerVehicleType(data){
+    const labels = data.map(item => item.vehicleType);
+    const dataValues = data.map(item => item.expense);
+
+    const ctx = document.getElementById("chartExpensesPerVehicleType").getContext("2d");
+    const myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Gasto no Tipo de Veículo (Em R$)",
+            data: dataValues,
+            backgroundColor: "orange",
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        const value = context.parsed.y;
+                        return "R$" + value.toFixed(2);
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: "rgb(51, 49, 49)", 
+                }
+            },
+            y: {
+                ticks: {
+                    color: "rgb(51, 49, 49)",
+                }
+            }
+        }
+    }
+});    
+}
+
+getMiniaturesByManufacturer();
+getExpensesPerManufacturer();
+getMiniaturesByVehicleType();
+getExpensesPerVehicleType();
+
+</script>
