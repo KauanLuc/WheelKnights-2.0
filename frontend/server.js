@@ -25,6 +25,34 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
+app.get("/dashboard", async (req, res) => {
+    try {
+        const total = (await axios.get("http://localhost:8080/dashboard/total")).data;
+        const collectionValue = (await axios.get("http://localhost:8080/dashboard/collection-value")).data;
+        const moreExpensive = (await axios.get("http://localhost:8080/dashboard/more-expensive")).data;
+        const cheaper = (await axios.get("http://localhost:8080/dashboard/cheaper")).data;
+
+        const miniaturesByManufacturer = (await axios.get("http://localhost:8080/dashboard/miniatures-by-manufacturer")).data;
+        
+        const cards = [
+            { idDiv: "total", content: total, name: "Quantidade de Miniaturas" },
+            { idDiv: "collectionValue", content: "R$ " + collectionValue.toFixed(2), name: "Valor Estimado da Coleção" },
+            { idDiv: "moreExpensive", content: "R$ " + moreExpensive, name: "Miniatura mais Cara" },
+            { idDiv: "cheaper", content: "R$ " + cheaper, name: "Miniatura mais Barata" }
+        ];
+
+        const graphs = [
+            { caption: "Quantidade de Miniaturas por Marca", canvasId: "chartMiniaturesByManufacturer" },
+            { caption: "Gastos por Marca (R$)", canvasId: "chartExpensesPerManufacturer" },
+            { caption: "Quantidade de Miniaturas por Tipo de Veículo", canvasId: "chartMiniaturesByVehicleType" },
+            { caption: "Gastos por Tipo de Veículo (R$)", canvasId: "chartExpensesPerVehicleType" }
+        ];
+
+        res.render("dashboard", { cards, graphs });
+    } catch (error) {
+        res.status(500).json({ message: "Erro ao carregar o dashboard: " + error.message });
+    }
+});
 
 app.post("/miniatures", upload.single("imagePath"), async (req, res) => {
     const {model, manufacturer, theme, vehicleType, purchasePrice} = req.body;
@@ -37,7 +65,7 @@ app.post("/miniatures", upload.single("imagePath"), async (req, res) => {
 
         res.status(201).json({message: "Miniatura cadastrada com sucesso!"});
     } catch(error) {
-        res.status(500).json({message: "Erro ai tentar cadastrar miniatura."});
+        res.status(500).json({message: "Erro ao tentar cadastrar miniatura."});
     }
 });
 
