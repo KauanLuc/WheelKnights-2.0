@@ -17,24 +17,24 @@ public class Miniature {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(name = "model")
     private String model;
 
-    @Column
+    @Column(name = "manufacturer")
     @Enumerated(EnumType.STRING)
     private Manufacturer manufacturer;
 
-    @Column
+    @Column(name = "theme")
     @Enumerated(EnumType.STRING)
     private Theme theme;
 
-    @Column
+    @Column(name = "vehicle_type")
     @Enumerated(EnumType.STRING)
     private VehicleType vehicleType;
 
-    @Column
+    @Column(name = "purchase_price")
     private Double purchasePrice;
 
-    @Column
+    @Column(name = "image_path")
     private String imagePath;
 }
