@@ -54,15 +54,15 @@ public class MiniatureService {
     }
 
     public Double sumByPurchasePrice(){
-        return repository.sumByPurchasePrice();
+        return repository.sumByPurchasePrice() != null ? repository.sumByPurchasePrice() : 0.0;
     }
 
     public Miniature findTopByOrderByPurchasePriceDesc(){
-        return repository.findTopByOrderByPurchasePriceDesc();
+        return repository.findTopByOrderByPurchasePriceDesc() != null ? repository.findTopByOrderByPurchasePriceDesc() : Miniature.builder().purchasePrice(0.0).build();
     }
 
     public Miniature findTopByOrderByPurchasePriceAsc(){
-        return repository.findTopByOrderByPurchasePriceAsc();
+        return repository.findTopByOrderByPurchasePriceAsc() != null ? repository.findTopByOrderByPurchasePriceAsc() : Miniature.builder().purchasePrice(0.0).build();
     }
 
     public List<MiniatureByManufacturer> countMiniatureByManufacturer(){
