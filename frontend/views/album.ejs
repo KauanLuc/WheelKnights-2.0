@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/feed.css">
+    <link rel="stylesheet" href="../public/css/album.css">
+    <link rel="shortcut icon" href="../public/assets/img/wheelknightslogo32.ico" type="image/x-icon">
+    <title>Álbum de Miniaturas - WK</title>
+</head>
+<body>
+    <nav class="main_menu">
+
+        <div class="menu_links">
+
+            <h1 class="brand_font">Álbum de Miniaturas</h1>
+            <input type="text" name="ms" class="search_top" placeholder="Pesquisar">
+
+            <div class="menu_icons">
+
+                <img src="../public/assets/img/icon-register-white.png" alt="registrar miniaturas" class="icon">
+                <img src="../public/assets/img/icon-dashboard-white.png" alt="dashboard" class="icon">
+                <img src="../public/assets/img/icon-album.png" alt="album" class="icon">
+
+            </div>
+
+        </div>
+
+    </nav>
+    
+    <div class="album" id="content">
+        <a href="/">
+            <div class="card">
+                <img src="../public/assets/img/add-miniature.jpg" alt="próximo modelo">
+                <h3><span>Clique Aqui</span></h3>
+                <h3><span>Para Adicionar</span></h3>
+                <h3><span>Uma Nova</span></h3>
+                <h3><span>Miniatura</span></h3>
+                <h3><span>À Sua Coleção</span></h3>
+                <h3>X/<%= miniatures.length %></h3>
+            </div>
+        </a>
+
+        <% if (miniatures && miniatures.length > 0) { %>
+            <% miniatures.forEach((miniature, index) => { %>
+                <div class="card">
+                    <img src="<%= miniature.imagePath && miniature.imagePath !== 'null' 
+                                ? `/${miniature.imagePath}` 
+                                : '../public/assets/img/no-miniature.jpg' %>"
+                         alt="<%= miniature.modelo %>">
+                    <h3>Modelo: <span><%= miniature.model %></span></h3>
+                    <h3>Tipo: <span><%= miniature.vehicleType %></span></h3>
+                    <h3>Tema: <span><%= miniature.theme %></span></h3>
+                    <h3>Marca: <span><%= miniature.manufacturer %></span></h3>
+                    <h3>Valor de Compra: <span>R$<%= miniature.purchasePrice %></span></h3>
+                    <h3><%= index + 1 %> / <%= miniatures.length %></h3>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</body>
+</html>
+
+<script>
+        document.querySelector("img[alt='registrar miniaturas']").addEventListener("click", () => window.location.href = "/");
+        document.querySelector("img[alt='dashboard']").addEventListener("click", () => window.location.href = "/dashboard");
+</script>
