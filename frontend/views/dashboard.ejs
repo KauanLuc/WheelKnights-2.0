@@ -62,37 +62,13 @@
     document.querySelector("img[alt='registrar miniaturas']").addEventListener("click", () => window.location.href = "/");
     document.querySelector("img[alt='album']").addEventListener("click", () => window.location.href = "/album");
 
-    function getMiniaturesByManufacturer() {
-        fetch("http://localhost:8080/dashboard/miniatures-by-manufacturer")
-            .then(response => response.json())
-            .then(data => chartMiniaturesByManufacturer(data))
-            .catch(error => console.error("Erro: ", error));
-    }
-
-    function getExpensesPerManufacturer() {
-        fetch("http://localhost:8080/dashboard/expenses-per-manufacturer")
-            .then(response => response.json())
-            .then(data => chartExpensesPerManufacturer(data))
-            .catch(error => console.error("Erro: ", error));
-    }
-
-    function getMiniaturesByVehicleType(){
-        fetch("http://localhost:8080/dashboard/miniatures-by-vehicle-type")
-            .then(response => response.json())
-            .then(data => chartMiniaturesByVehicleType(data))
-            .catch(error => console.error("Erro: ", error));
-    }
-
-    function getExpensesPerVehicleType(){
-        fetch("http://localhost:8080/dashboard/expenses-per-vehicle-type")
-            .then(response => response.json())
-            .then(data => chartExpensesPerVehicleType(data))
-            .catch(error => console.error("Erro: ", error));
-    }
-
-    function chartMiniaturesByManufacturer(data) {
-        const labels = data.map(item => item.manufacturer);
-        const dataValues = data.map(item => item.quantity);
+    const graphs = <%- JSON.stringify(graphs) %> || [];
+    console.log(graphs[0].manufacturer);
+    console.log(graphs[0].quantity);
+    
+    function chartMiniaturesByManufacturer() {
+        const labels = graphs[0].content.map(item => item.manufacturer);
+        const dataValues = graphs[0].content.map(item => item.quantity);
 
         const ctx = document.getElementById("chartMiniaturesByManufacturer").getContext("2d");
         new Chart(ctx, {
@@ -131,143 +107,144 @@
         });
     }
 
-function chartExpensesPerManufacturer(data) {
-    const labels = data.map(item => item.manufacturer);
-    const dataValues = data.map(item => item.expense);
+    function chartExpensesPerManufacturer() {
+        const labels = graphs[1].content.map(item => item.manufacturer);
+        const dataValues = graphs[1].content.map(item => item.expense);
 
-    const ctx = document.getElementById("chartExpensesPerManufacturer").getContext("2d");
-    const myChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-        labels: labels,
-        datasets: [{
-            label: "Gasto na Marca (Em R$)",
-            data: dataValues,
-            backgroundColor: "orange",
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        },
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        const value = context.parsed.y;
-                        return "R$" + value.toFixed(2);
+        const ctx = document.getElementById("chartExpensesPerManufacturer").getContext("2d");
+        const myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Gasto na Marca (Em R$)",
+                    data: dataValues,
+                    backgroundColor: "orange",
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const value = context.parsed.y;
+                                return "R$" + value.toFixed(2);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: "rgb(51, 49, 49)", 
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: "rgb(51, 49, 49)",
+                        }
                     }
                 }
             }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: "rgb(51, 49, 49)", 
-                }
+        });
+    }
+
+    function chartMiniaturesByVehicleType() {
+        const labels = graphs[2].content.map(item => item.vehicleType);
+        const dataValues = graphs[2].content.map(item => item.quantity);
+        
+        const ctx = document.getElementById("chartMiniaturesByVehicleType").getContext("2d");
+        const myChart = new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Quantidade de miniaturas",
+                    data: dataValues,
+                    borderWidth: 1
+                }]
             },
-            y: {
-                ticks: {
-                    color: "rgb(51, 49, 49)",
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: "rgb(51, 49, 49)", 
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: "rgb(51, 49, 49)",
+                        }
+                    }
                 }
             }
-        }
+        });    
     }
-});
 
-}
+    function chartExpensesPerVehicleType() {
+        const labels = graphs[3].content.map(item => item.vehicleType);
+        const dataValues = graphs[3].content.map(item => item.expense);
 
-function chartMiniaturesByVehicleType(data) {
-    const labels = data.map(item => item.vehicleType);
-    const dataValues = data.map(item => item.quantity);
+        const ctx = document.getElementById("chartExpensesPerVehicleType").getContext("2d");
+        const myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Gasto no Tipo de Veículo (Em R$)",
+                    data: dataValues,
+                    backgroundColor: "orange",
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const value = context.parsed.y;
+                                return "R$" + value.toFixed(2);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: "rgb(51, 49, 49)", 
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: "rgb(51, 49, 49)",
+                        }
+                    }
+                }
+            }
+        });    
+    }
+
     
-    const ctx = document.getElementById("chartMiniaturesByVehicleType").getContext("2d");
-    const myChart = new Chart(ctx, {
-        type: "pie",
-        data: {
-            labels: labels,
-            datasets: [{
-                label: "Quantidade de miniaturas",
-                data: dataValues,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: false
-                }
-            },
-            scales: {
-            x: {
-                ticks: {
-                    color: "rgb(51, 49, 49)", 
-                }
-            },
-            y: {
-                ticks: {
-                    color: "rgb(51, 49, 49)",
-                }
-            }
-        }
-        }
-    });    
+    if (Array.isArray(graphs) && graphs.length >= 4) {
+    chartMiniaturesByManufacturer();
+    chartExpensesPerManufacturer();
+    chartMiniaturesByVehicleType();
+    chartExpensesPerVehicleType();
 }
-
-function chartExpensesPerVehicleType(data){
-    const labels = data.map(item => item.vehicleType);
-    const dataValues = data.map(item => item.expense);
-
-    const ctx = document.getElementById("chartExpensesPerVehicleType").getContext("2d");
-    const myChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-        labels: labels,
-        datasets: [{
-            label: "Gasto no Tipo de Veículo (Em R$)",
-            data: dataValues,
-            backgroundColor: "orange",
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        },
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        const value = context.parsed.y;
-                        return "R$" + value.toFixed(2);
-                    }
-                }
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: "rgb(51, 49, 49)", 
-                }
-            },
-            y: {
-                ticks: {
-                    color: "rgb(51, 49, 49)",
-                }
-            }
-        }
-    }
-});    
-}
-
-getMiniaturesByManufacturer();
-getExpensesPerManufacturer();
-getMiniaturesByVehicleType();
-getExpensesPerVehicleType();
-
 </script>
